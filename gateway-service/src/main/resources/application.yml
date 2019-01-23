@@ -1,0 +1,41 @@
+info:
+  component: Gateway Service
+  
+endpoints:
+#  restart:
+#    enabled: true
+#  shutdown:
+#    enabled: true
+#  health:
+#    sensitive: false
+
+zuul:
+#  ignoredServices: '*'
+#  prefix: /api
+  routes:
+    account: 
+      path: /account/**
+      serviceId: account-service
+    uaa:
+      path: /uaa/**
+      serviceId: authentication-service
+      sensitiveHeaders: 
+      stripPrefix: false          
+  add-proxy-headers: true
+  
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: false
+    fetchRegistry : false
+    server: waitTimeInMsWhenSyncEmpty = 0
+      
+server:
+  port: 8765
+
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.web: DEBUG
+    level.org.springframework.security: DEBUG
